@@ -1,0 +1,60 @@
+<pre>
+  BIP: XXX
+  Layer: Applications
+  Title: Check Output Standard Transactions
+  Author: Jordan Baczuk <jordan.baczuk@gmail.com>
+          David Childs <dchilds@robinsage.com>
+  Comments-Summary: No comments yet.
+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-xxxx
+  Status: Draft
+  Type: Standards Track
+  Created: 2018-11-13
+  License: PD
+</pre>
+
+==Abstract==
+
+This BIP proposes check output transactions as a new 'standard' transaction type.
+
+==Motivation==
+
+Sales commissions, enforcement of budget allocations, revenue sharing.
+
+A couple of motivating use cases:
+
+* A distributor with a complicated compensation structure, such as a multi-level marketing company is forced to wait for commission payments from the company who receives full payment for products sold. The compensation structure is difficult for both parties to verify and it is prone to mistakes. A check output transaction establishes the commissions payment prior to taking any payments from customers. The transaction scriptPubKey can be set so that the company is required to sign in order to redeem the funds, so that they can ensure the product was delivered to the customer, for example.
+
+* A company has specific proportions of revenue that must be paid to specific accounts, such as taxes. Receiving revenue payments on a check output transaction enforces and can automate these allocations.
+
+* Investors in a company have agreed to revenue sharing royalties, a check output transaction enforces that all revenue is split correctly to each investor.
+
+==Specification==
+
+A new standard transaction type (scriptPubKey) that is relayed by clients and included in mined blocks:
+
+    i {mPct} {scriptPubKey} ... 0 {scriptPubKey} n OP_CHECKOUTPUTS
+
+* <code>i</code> is the index of the <code>scriptPubKey</code> that is required to redeem the output.
+* <code>mPct</code> is a 32 bit int representing a millipercent, which is an integer representing thousands of a percentage point (e.g. 90500 = 90.5%).
+* The last <code>mPct</code> must be 0 and is a catch-all to cover the remaining percentage minus transaction fees.
+* <code>n</code> is the number of outputs that must be verified (must match the number of <code>scriptPubKeys</code> provided in the script.
+* <code>OP_CHECKOUTPUTS</code> is a new opcode proposed to replace the existing <code>OP_NOP4</code> opcode.
+
+<code>OP_CHECKMULTISIG</code> transactions are redeemed using a standard <code>scriptSig</code>:
+    {signature i}
+
+Which must satisfy the <code>scriptPubKey</code> with index <code>i</code>
+
+==Rationale==
+
+Multisig transactions do not solve the problem where there is no trusted party or intermediary.
+
+==Implementation==
+
+<code>OP_CHECKOUTPUTS</code> can be created using existing unused <code>OP_NOP4</code>.
+
+TODO: Add link to implementation
+
+== Post History ==
+
+TODO: Add link to discussion
