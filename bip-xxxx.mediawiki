@@ -36,7 +36,7 @@ A new standard transaction type (scriptPubKey) that is relayed by clients and in
 
 * <code>i</code> is the index of the <code>scriptPubKey</code> that is required to redeem the output.
 * <code>mPct</code> is a 32 bit int representing a millipercent, which is an integer representing thousands of a percentage point (e.g. 90500 = 90.5%).
-* The last <code>mPct</code> must be 0 and is a catch-all to cover the remaining percentage minus transaction fees.
+* The last <code>mPct</code> must be 0 and is a catch-all to cover the remaining percentage and transaction fees.
 * <code>n</code> is the number of outputs that must be verified (must match the number of <code>scriptPubKeys</code> provided in the script.
 * <code>OP_CHECKOUTPUTS</code> is a new opcode proposed to replace the existing <code>OP_NOP4</code> opcode.
 
